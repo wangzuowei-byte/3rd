@@ -3,10 +3,9 @@
 WORKSPACE_PATH=$(readlink -f "$(dirname "$0")")
 TOOLCHAINS_PATH=/work/toolchains
 
-PTHREAD_NAME=boost_source
-TAR_NAME=boost_1_71_0.tar.bz2
+PTHREAD_NAME=boost_1_71_0
 
-function boost_unzip()
+function unzip()
 {
    local TAR_PATH=$1
    local SOURCE_PATH=$2
@@ -15,7 +14,7 @@ function boost_unzip()
    if [ ! -d ${SOURCE_PATH} ];then
       mkdir -p ${SOURCE_PATH}
 
-      tar -vxf ${TAR_PATH} --strip-components 1 -C ${SOURCE_PATH}
+      tar -vxf ${TAR_PATH}.tar.bz2 --strip-components 1 -C ${SOURCE_PATH}
    fi
 
   return 0
@@ -26,13 +25,14 @@ function x86_build()
    local PLATFORM_SYS=$1
 
    local TOOLCHAIN_PATH=${TOOLCHAINS_PATH}/${PLATFORM_SYS}
-   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build
+   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build/${PTHREAD_NAME}_build
+   local TAP_PATH=${WORKSPACE_PATH}/pack_tar/${PTHREAD_NAME}
 
    local PRJ_BUILD_PATH=${TAR_BUILD_PATH}/${PLATFORM_SYS}_build
    local PRJ_INSTALL_PATH=${TAR_BUILD_PATH}/install/${PLATFORM_SYS}
 
    # download and unzip
-   boost_unzip ${WORKSPACE_PATH}/${TAR_NAME} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
+   unzip ${TAP_PATH} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
 
    if [ ! -e ${TOOLCHAIN_PATH}/setup.sh ]; then 
       echo "\033[31m[ERROR] toolchain path ${PLATFORM_SYS} setup.sh LoSe!!! \033[0m"
@@ -65,13 +65,14 @@ function aarch64_linux_build()
    local PLATFORM_SYS=$1
 
    local TOOLCHAIN_PATH=${TOOLCHAINS_PATH}/${PLATFORM_SYS}
-   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build
+   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build/${PTHREAD_NAME}_build
+   local TAP_PATH=${WORKSPACE_PATH}/pack_tar/${PTHREAD_NAME}
 
    local PRJ_BUILD_PATH=${TAR_BUILD_PATH}/${PLATFORM_SYS}_build
    local PRJ_INSTALL_PATH=${TAR_BUILD_PATH}/install/${PLATFORM_SYS}
 
    # download and unzip
-   boost_unzip ${WORKSPACE_PATH}/${TAR_NAME} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
+   unzip ${TAP_PATH} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
 
    if [ ! -e ${TOOLCHAIN_PATH}/setup.sh ]; then 
       echo "\033[31m[ERROR] toolchain path ${PLATFORM_SYS} setup.sh LoSe!!! \033[0m"
@@ -111,13 +112,14 @@ function arm32_linux_build()
    local PLATFORM_SYS=$1
 
    local TOOLCHAIN_PATH=/toolchains/armhf_none_9.2_2019.12
-   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build
+   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build/${PTHREAD_NAME}_build
+   local TAP_PATH=${WORKSPACE_PATH}/pack_tar/${PTHREAD_NAME}
 
    local PRJ_BUILD_PATH=${TAR_BUILD_PATH}/${PLATFORM_SYS}_build
    local PRJ_INSTALL_PATH=${TAR_BUILD_PATH}/install/${PLATFORM_SYS}
 
    # download and unzip
-   boost_unzip ${WORKSPACE_PATH}/${TAR_NAME} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
+   unzip ${TAP_PATH} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
 
    if [ ! -e ${TOOLCHAIN_PATH}/setup.sh ]; then 
       echo "\033[31m[ERROR] toolchain path ${PLATFORM_SYS} setup.sh LoSe!!! \033[0m"
@@ -155,13 +157,14 @@ function aarch64_qnx710_build()
    local PLATFORM_SYS=$1
 
    local TOOLCHAIN_PATH=${TOOLCHAINS_PATH}/${PLATFORM_SYS}
-   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build
+   local TAR_BUILD_PATH=${WORKSPACE_PATH}/build/${PTHREAD_NAME}_build
+   local TAP_PATH=${WORKSPACE_PATH}/pack_tar/${PTHREAD_NAME}
 
    local PRJ_BUILD_PATH=${TAR_BUILD_PATH}/${PLATFORM_SYS}_build
    local PRJ_INSTALL_PATH=${TAR_BUILD_PATH}/install/${PLATFORM_SYS}
 
    # download and unzip
-   boost_unzip ${WORKSPACE_PATH}/${TAR_NAME} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
+   unzip ${TAP_PATH} ${TAR_BUILD_PATH}/${PTHREAD_NAME}
 
    if [ ! -e ${TOOLCHAIN_PATH}/setup.sh ]; then 
       echo "\033[31m[ERROR] toolchain path ${PLATFORM_SYS} setup.sh LoSe!!! \033[0m"
