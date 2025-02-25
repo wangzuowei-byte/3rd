@@ -115,6 +115,8 @@ function aarch64_linux_build()
    --host=aarch64-bst-linux              \
    CC="${CC} --sysroot=${SYSROOT}"       \
    CXX="${CXX} --sysroot=${SYSROOT}"     \
+   CXXFLAGS="-Os" 						\
+   LDFLAGS="-Wl,--strip-debug" 			\
    --prefix=${PRJ_INSTALL_PATH}          \
    --with-protoc=/usr/bin/protoc 
 
@@ -304,6 +306,11 @@ distclean_buid()
 install_env()
 {
    apt-get install protobuf-compiler -y
+
+  	apt-get install autoconf -y
+
+	apt-get install libtool -y 
+
    return 0
 }
 function do_once_menu()
